@@ -1,15 +1,23 @@
 // server.js
 require("dotenv").config();
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
+const bodeParser = require("body-parser");
+const app = express();
+const port = 8080;
+require("dotenv").config();
 
+const newsRoutes = require("./app/routes/news");
+
+app.use("/api/news", newsRoutes);
+
+const mongoose = require("mongoose");
 const authRoutes = require("./app/routes/AuthRoutes.js"); // Assurez-vous que ce chemin est correct
 
-const app = express();
 
 // Middlewares
 app.use(express.json());
+app.use(bodeParser.json());
 app.use(cors());
 
 // Connexion MongoDB
