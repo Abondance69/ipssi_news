@@ -15,7 +15,6 @@ const authMiddleware = (roles = []) => {
       // Vérifier le token
       const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
       req.user = { userId: decoded.id };
-
       const user = await User.findById({ _id: decoded.id });
 
       if (!user) {
