@@ -1,70 +1,26 @@
 import { useState, useEffect } from "react";
-import Articles from "./Articles";
+import Articles from "../components/Articles";
+import HistoryServices from "../services/HistoryServices";
 
 export default function History() {
-  const [history, setHistory] = useState([]);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    setTimeout(() => {
+    const fetchData = async () => {
       try {
-        setHistory([
-          {
-            id: 1,
-            title: "Introduction à React",
-            url: "/react-intro",
-            date: "2025-03-21",
-            description:
-              "Une introduction complète à React et ses concepts de base.",
-          },
-          {
-            id: 2,
-            title: "Utiliser Tailwind CSS",
-            url: "/tailwind-guide",
-            date: "2025-03-20",
-            description:
-              "Un guide détaillé pour utiliser Tailwind CSS efficacement.",
-          },
-          {
-            id: 3,
-            title: "Routing avec React Router",
-            url: "/react-router",
-            date: "2025-03-18",
-            description:
-              "Apprenez à naviguer entre les pages avec React Router.",
-          },
-          {
-            id: 4,
-            title: "Gestion d'état avec Redux",
-            url: "/redux-guide",
-            date: "2025-03-17",
-            description:
-              "Un guide pour comprendre Redux et gérer l'état global.",
-          },
-          {
-            id: 5,
-            title: "Gestion d'état avec Redux",
-            url: "/redux-guide",
-            date: "2025-03-17",
-            description:
-              "Un guide pour comprendre Redux et gérer l'état global.",
-          },
-          {
-            id: 6,
-            title: "Gestion d'état avec Redux",
-            url: "/redux-guide",
-            date: "2025-03-17",
-            description:
-              "Un guide pour comprendre Redux et gérer l'état global.",
-          },
-        ]);
+        const historyServices = new HistoryServices();
+        const result = await historyServices.getHistories();
         setLoading(false);
-      } catch (err) {
-        setError("Impossible de charger l'historique.");
-        setLoading(false);
+        setData(result.articles);
+        // console.log(data);
+      } catch (error) {
+        setError(error.message || "Erreur lors du chargement des actualités.");
       }
-    }, 2000);
+    };
+
+    fetchData();
   }, []);
 
   return (
@@ -91,9 +47,7 @@ export default function History() {
                 </div>
               </div>
             ))
-          : history.map((item) => (
-             <Articles article={item} />
-            ))}
+          : data.map((item) => <Articles key={item._id} article={item} />)}
       </div>
     </div>
   );

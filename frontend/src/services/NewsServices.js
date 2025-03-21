@@ -41,21 +41,4 @@ export default class NewsServices {
       );
     }
   }
-
-  async getHistory() {
-    try {
-      const response = await axios.get(
-        `${CONFIG.BACKEND_API_URL}/api/history`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      return response.data;
-    } catch (error) {
-      throw new Error("Utilisateur non authentifié.");
-    }
-  }
 }

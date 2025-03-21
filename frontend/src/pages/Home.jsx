@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NewsServices from "../services/NewsServices";
-import Articles from "./Articles";
+import Articles from "../components/Articles";
 
 export default function Home() {
   const [data, setData] = useState([]);
