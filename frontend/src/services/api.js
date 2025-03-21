@@ -11,9 +11,19 @@ const apiClient = axios.create({
   },
 })
 
-// Add a request interceptor to include auth token
+// Request interceptor for logging and authentication
 apiClient.interceptors.request.use(
   (config) => {
+    // Log the request details
+    console.log('🚀 REQUEST ENVOYE :', {
+      method: config.method.toUpperCase(),
+      url: config.baseURL + config.url,
+      params: config.params,
+      data: config.data,
+      headers: config.headers
+    })
+    
+    // Add authentication token
     const token = localStorage.getItem('token')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
@@ -21,6 +31,29 @@ apiClient.interceptors.request.use(
     return config
   },
   (error) => {
+    console.log('❌ REQUEST ERROR:', error)
+    return Promise.reject(error)
+  }
+)
+
+// Response interceptor for logging responses
+apiClient.interceptors.response.use(
+  (response) => {
+    console.log('✅ RESPONSE RECUE:', {
+      status: response.status,
+      statusText: response.statusText,
+      data: response.data,
+      headers: response.headers
+    })
+    return response
+  },
+  (error) => {
+    console.log('❌ RESPONSE ERROR:', {
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      message: error.message
+    })
     return Promise.reject(error)
   }
 )
