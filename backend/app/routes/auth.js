@@ -1,4 +1,3 @@
-// routes/authRoutes.js
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -6,10 +5,9 @@ const User = require("../models/User");
 
 const router = express.Router();
 
-// Route d'inscription
 router.post("/register", async (req, res) => {
     try {
-        const { firstname, lastname, email, password } = req.body; // Ajout des champs firstname et lastname
+        const { firstname, lastname, email, password } = req.body;
 
         // Vérifier si l'utilisateur existe déjà
         let user = await User.findOne({ email });
@@ -29,7 +27,6 @@ router.post("/register", async (req, res) => {
     }
 });
 
-// Route de connexion
 router.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
