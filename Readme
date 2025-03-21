@@ -8,9 +8,11 @@ npm i
 
 # Install frontend packages
 cd frontend
-npm run dev
+npm i
 
 # Run all project
+Dans le dossier root
+npm i
 npm run start
 ```
 
