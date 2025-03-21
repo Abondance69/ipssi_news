@@ -56,8 +56,7 @@ exports.getNewsFromGNews = async (query, category, from, to) => {
 
 exports.getNewsFromNYT = async (query, from, to) => {
   try {
-    // let url = `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${query}&api-key=${CONFIG.NYT_API_KEY}`;
-    let url = `https://api.nytimes.com/svc/topstories/v2/world.json?api-key=${CONFIG.NYTIMES_API_KEY}`;
+    let url = `${CONFIG.NYTIMES_API_URL}/world.json?api-key=${CONFIG.NYTIMES_API_KEY}`;
 
     if (from) url += `&begin_date=${from}`;
     if (to) url += `&end_date=${to}`;
