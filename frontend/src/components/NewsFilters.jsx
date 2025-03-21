@@ -35,7 +35,9 @@ const NewsFilters = ({ onApplyFilters, initialFilters = {} }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    console.log("Filters applied:", filters);
     onApplyFilters(filters)
+    
   }
 
   const handleReset = () => {
