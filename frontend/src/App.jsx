@@ -6,7 +6,7 @@ import './App.css'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
-import Profile from './pages/Profile'
+import History from './pages/History'
 import NotFound from './pages/NotFound'
 
 // Components
@@ -58,10 +58,10 @@ function App() {
           <Route path="/login" element={!isAuthenticated ? <Login onLogin={login} /> : <Navigate to="/" />} />
           <Route path="/register" element={!isAuthenticated ? <Register /> : <Navigate to="/" />} />
           <Route 
-            path="/profile" 
+            path="/history" 
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
-                <Profile user={user} />
+                <History user={user} />
               </ProtectedRoute>
             } 
           />

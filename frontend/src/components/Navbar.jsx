@@ -35,7 +35,7 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
           
           {isAuthenticated ? (
             <>
-              <Link to="/profile" className="navbar-link" onClick={() => setIsMenuOpen(false)}>
+              <Link to="/history" className="navbar-link" onClick={() => setIsMenuOpen(false)}>
                 History
               </Link>
               <div className="navbar-user">
