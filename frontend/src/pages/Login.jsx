@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import apiService from '../services/api'
 import './Auth.css'
+import UserServices from '../services/UserServices'
 
 const Login = ({ onLogin }) => {
   const [formData, setFormData] = useState({
@@ -30,36 +30,17 @@ const Login = ({ onLogin }) => {
       setLoading(true)
       setError('')
       
-      const response = await apiService.login(formData)
-      
-      // Handle successful login
-      onLogin({
-        username: response.data.username || response.data.email,
-        token: response.data.token,
-      })
-      
+      const userSevices = new UserServices();
+      userSevices.login(formData.email, formData.password).then((response) => {console.log(response)});
+          
       navigate('/')
     } catch (err) {
       console.error('Login error:', err)
-      
-      if (err.response?.data?.message) {
-        setError(err.response.data.message)
-      } else {
-        setError('Login failed. Please check your credentials and try again.')
+      setError(err.response.msg);
+   
       }
-      
-      // For development: mock successful login
-      if (import.meta.env.DEV && formData.email === 'demo@example.com' && formData.password === 'demo123') {
-        onLogin({
-          username: 'Demo User',
-          token: 'mock-token-for-development',
-        })
-        navigate('/')
-      }
-    } finally {
-      setLoading(false)
-    }
-  }
+    } 
+  
 
   return (
     <div className="auth-page">

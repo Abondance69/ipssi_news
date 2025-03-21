@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import apiService from '../services/api'
 import './Auth.css'
+import UserServices from '../services/UserServices'
+
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -29,6 +30,19 @@ const Register = () => {
       setError('Please fill in all fields')
       return
     }
+
+    try {
+          setLoading(true)
+          setError('')
+          
+          const userServices = new UserServices();
+          userServices.register(formData.firstName, formData.lastName, formData.email, formData.password).then((response) => {console.log(response)});
+          navigate('/')
+    } catch (err) {
+      console.error('Register error:', err)
+      setError(err.response.msg);
+   
+      }
     
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match')
@@ -40,34 +54,6 @@ const Register = () => {
       return
     }
     
-    try {
-      setLoading(true)
-      setError('')
-      
-      await apiService.register({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        password: formData.password,
-      })
-      
-      // Redirect to login after successful registration
-      navigate('/login', { 
-        state: { 
-          message: 'Registration successful! Please login with your new account.' 
-        }
-      })
-    } catch (err) {
-      console.error('Registration error:', err)
-      
-      if (err.response?.data?.message) {
-        setError(err.response.data.message)
-      } else {
-        setError('Registration failed. Please try again.')
-      }
-    } finally {
-      setLoading(false)
-    }
   }
 
   return (

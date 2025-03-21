@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import apiService from '../services/api'
 import './Profile.css'
 
 const Profile = ({ user }) => {
@@ -14,29 +13,11 @@ const Profile = ({ user }) => {
   }, [])
 
   const fetchHistory = async () => {
-    try {
-      setLoading(true)
-      const response = await apiService.getHistory()
-      setHistory(response.data || [])
-    } catch (err) {
-      console.error('Error fetching history:', err)
-      setError('Failed to load your history. Please try again later.')
-    } finally {
-      setLoading(false)
-    }
+
   }
 
   const handleRecreateSearch = async (searchId) => {
-    try {
-      const response = await apiService.recreateSearch(searchId)
-      const searchParams = response.data.searchParams
-
-      // Navigate to home with the search parameters
-      navigate('/', { state: { searchParams } })
-    } catch (err) {
-      console.error('Error recreating search:', err)
-      alert('Failed to recreate search. Please try again.')
-    }
+    
   }
 
   const formatDate = (dateString) => {

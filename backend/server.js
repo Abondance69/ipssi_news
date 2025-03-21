@@ -15,5 +15,9 @@ app.use(express.json());
 app.use(bodeParser.json());
 app.use(cors());
 
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
 const port = 8080;
 app.listen(port, () => console.log(`🚀 Serveur démarré sur le port ${port}`));

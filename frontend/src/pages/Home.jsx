@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import NewsFilters from '../components/NewsFilters'
 import NewsList from '../components/NewsList'
-import apiService from '../services/api'
 import './Home.css'
 
 const Home = ({ isAuthenticated }) => {
@@ -23,31 +22,7 @@ const Home = ({ isAuthenticated }) => {
       setLoading(true)
       setError(null)
 
-      try {
-        // Create query params from applied filters
-        const params = {}
-        
-        if (appliedFilters.keyword) params.q = appliedFilters.keyword
-        if (appliedFilters.category) params.category = appliedFilters.category
-        if (appliedFilters.sortBy) params.sortBy = appliedFilters.sortBy
-        if (appliedFilters.startDate) params.from = appliedFilters.startDate
-        if (appliedFilters.endDate) params.to = appliedFilters.endDate
-        if (appliedFilters.searchInContent) params.searchInContent = appliedFilters.searchInContent
-
-        // Make API request
-        const response = await apiService.getNews(params)
-        setNews(response.data.articles || [])
-      } catch (err) {
-        console.error('Error fetching news:', err)
-        setError('Failed to load news. Please try again later.')
-        
-        // For development: mock data when API is not available
-        if (import.meta.env.DEV) {
-          setNews(mockArticles)
-        }
-      } finally {
-        setLoading(false)
-      }
+      
     }
 
     fetchNews()
@@ -60,14 +35,6 @@ const Home = ({ isAuthenticated }) => {
   const handleSaveToHistory = async (article) => {
     if (!isAuthenticated) return
     
-    try {
-      await apiService.saveToHistory({
-        ...article,
-        searchParams: appliedFilters, // Save the search params that led to this article
-      })
-    } catch (err) {
-      console.error('Error saving to history:', err)
-    }
   }
 
   return (
