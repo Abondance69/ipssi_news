@@ -19,6 +19,7 @@ const Login = ({ onLogin }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    console.log('Form Data:', formData)
     
     if (!formData.email || !formData.password) {
       setError('Please fill in all fields')
