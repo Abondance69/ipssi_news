@@ -5,7 +5,8 @@ import './Auth.css'
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    username: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -21,9 +22,10 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    console.log('Form Data:', formData)
     
     // Form validation
-    if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.password || !formData.confirmPassword) {
       setError('Please fill in all fields')
       return
     }
@@ -43,7 +45,8 @@ const Register = () => {
       setError('')
       
       await apiService.register({
-        username: formData.username,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
         email: formData.email,
         password: formData.password,
       })
@@ -76,14 +79,28 @@ const Register = () => {
         
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="firstName">First Name</label>
             <input
               type="text"
-              id="username"
-              name="username"
-              value={formData.username}
+              id="firstName"
+              name="firstName"
+              value={formData.firstName}
               onChange={handleChange}
-              placeholder="Choose a username"
+              placeholder="Enter your first name"
+              disabled={loading}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="lastName">Last Name</label>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              placeholder="Enter your last name"
               disabled={loading}
               required
             />
