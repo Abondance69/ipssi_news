@@ -3,7 +3,7 @@ const CONFIG = require("../config/config");
 
 exports.getNewsFromNewsAPI = async (query, from, to) => {
   try {
-    let url = `https://newsapi.org/v2/everything?q=${query}&apiKey=${CONFIG.NEWS_API_KEY}`;
+    let url = `${CONFIG.NEWS_API_URL}/everything?q=${query}&apiKey=${CONFIG.NEWS_API_KEY}`;
 
     if (from) url += `&from=${from}`;
     if (to) url += `&to=${to}`;
@@ -72,7 +72,7 @@ exports.getNewsFromNYT = async (query, from, to) => {
         article.multimedia && article.multimedia.length > 0
           ? `${article.multimedia[0].url}`
           : "",
-      publishedAt: article.pub_date,
+      publishedAt: article.published_date,
       source: {
         name: "The New York Times",
         url: "https://www.nytimes.com",
@@ -96,7 +96,7 @@ exports.getAllNews = async (req, res) => {
     ]);
 
     let allNews = [...newsAPI, ...gNews, ...getNYT];
-
+  
     // Filtrer par source
     if (source) {
       allNews = allNews.filter((article) =>
